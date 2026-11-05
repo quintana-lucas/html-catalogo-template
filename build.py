@@ -119,7 +119,7 @@ def revisar_fotos(productos):
             continue
         real = por_minuscula.get(foto.lower())
         if real:
-            # GitHub Pages distingue mayúsculas: "Acelga.JPG" no encuentra "acelga.jpg".
+            # Los servidores distinguen mayúsculas: "Acelga.JPG" no encuentra "acelga.jpg".
             print(f"::warning::Foto de «{p['nombre']}»: se usa «{real}» en vez de «{foto}».")
             p["foto"] = real
         else:
@@ -495,12 +495,8 @@ def main():
     shutil.copytree(RAIZ / "assets", SALIDA / "assets")
     # Google y algunos navegadores buscan el ícono en /favicon.ico aunque la página diga otra ruta
     shutil.copy(RAIZ / "assets" / "favicon.ico", SALIDA / "favicon.ico")
-    (SALIDA / ".nojekyll").touch()
 
     robots_y_sitemap(config, ahora, ["" if nombre == "index.html" else nombre for nombre in paginas])
-
-    if config.get("dominio"):
-        (SALIDA / "CNAME").write_text(config["dominio"].strip() + "\n")
 
     avisar_a_la_action("publicar", "true")
     print(f"Listo: {len(productos)} productos en {len(categorias)} categorías -> _site/index.html")

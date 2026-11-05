@@ -1,8 +1,8 @@
 # Plantilla de catálogo con pedido por WhatsApp
 
 Sitio estático para negocios chicos: un catálogo que se arma solo desde una
-planilla de Google Sheets, con carrito y pedido por WhatsApp, y que se publica
-gratis con GitHub Pages. Salió del catálogo de Savia y se generalizó para
+planilla de Google Sheets, con carrito y pedido por WhatsApp. Se arma
+solo con una Action. Salió del catálogo de Savia y se generalizó para
 usarlo con otros clientes.
 
 **Todo lo propio del cliente está en `config.json`.** El resto (`build.py`,
@@ -24,10 +24,9 @@ usarlo con otros clientes.
    vacío muestra «Consultar» y `Disponible = no` muestra «Sin stock».
 5. **Publicar la planilla.** *Archivo → Compartir → Publicar en la web →* la
    hoja de productos, formato *CSV*. Pegar ese link en `planilla_csv`.
-6. **Activar GitHub Pages.** *Settings → Pages → Source: GitHub Actions*.
-7. **Dominio (opcional).** Poner el dominio en `dominio`, apuntar el DNS a
-   GitHub Pages y, cuando ande, `indexar: true` para que aparezca en Google.
-8. **Probar.** Pestaña *Actions → Publicar catálogo → Run workflow*. Revisar
+6. **Dominio (opcional).** Poner el dominio en `dominio` y, cuando esté
+   funcionando, `indexar: true` para que aparezca en Google.
+7. **Probar.** Pestaña *Actions → Publicar catálogo → Run workflow*. Revisar
    la página en el celular: agregar un producto y mandar un pedido de prueba.
 
 Para probar en la compu antes de subir: `python3 build.py` y abrir
@@ -85,7 +84,7 @@ Con `"activo": false` desaparece todo rastro del módulo.
 ## Cómo se publica
 
 `.github/workflows/publicar.yml` corre `build.py`, que lee la planilla y
-arma `_site/`, y lo sube a GitHub Pages:
+arma `_site/`, y guarda el resultado:
 
 - en cada `push` a `main`;
 - a mano, desde *Actions → Run workflow* (con la opción «Publicar igual» si

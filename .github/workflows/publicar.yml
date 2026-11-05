@@ -19,20 +19,15 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: publicar
   # No cortar una publicación a la mitad si arranca otra (por ejemplo, la automática).
   cancel-in-progress: false
 
 jobs:
   publicar:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -54,14 +49,9 @@ jobs:
           QUIENES_SOMOS: ${{ vars.QUIENES_SOMOS }}
         run: python build.py
 
+      # El sitio terminado queda en _site/ y se guarda como archivo de la corrida.
       - if: steps.build.outputs.publicar == 'true'
-        uses: actions/configure-pages@v5
-
-      - if: steps.build.outputs.publicar == 'true'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: sitio
           path: _site
-
-      - if: steps.build.outputs.publicar == 'true'
-        id: deploy
-        uses: actions/deploy-pages@v4
